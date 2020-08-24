@@ -3,10 +3,13 @@
 // </copyright>
 namespace MyntraAutomation.Pages
 {
+    using System;
     using System.Threading;
     using OpenQA.Selenium;
     using OpenQA.Selenium.Appium.Android;
     using SeleniumExtras.PageObjects;
+    using MyntraAutomation.Exceptions;
+    using System.Reflection;
 
     /// <summary>
     /// Search Product page.
@@ -33,8 +36,14 @@ namespace MyntraAutomation.Pages
         /// </summary>
         public void Wishlist()
         {
-            wishlistIcon.Click();
-            Thread.Sleep(2000);
+            try
+            {
+                wishlistIcon.Click();
+                Thread.Sleep(2000);
+            }catch(Exception e)
+            {
+                Console.WriteLine(CustomException.TypeOfException.ELEMENT_NOT_FOUND);
+            }
         }
     }
 }

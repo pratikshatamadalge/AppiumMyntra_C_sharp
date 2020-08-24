@@ -1,6 +1,8 @@
-﻿using OpenQA.Selenium;
+﻿using MyntraAutomation.Exceptions;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Android;
 using SeleniumExtras.PageObjects;
+using System;
 using System.Threading;
 
 namespace MyntraAutomation.Pages
@@ -36,13 +38,19 @@ namespace MyntraAutomation.Pages
         /// </summary>
         public void Wishlistpage()
         {
-            mobileNo.SendKeys("7875680359");
-            Thread.Sleep(2000);
-            driver.HideKeyboard();
-            continueBtn.Click();
-            Thread.Sleep(25000);
-            productImage.Click();
-            Thread.Sleep(2000);
+            try
+            {
+                mobileNo.SendKeys("7875680359");
+                Thread.Sleep(2000);
+                driver.HideKeyboard();
+                continueBtn.Click();
+                Thread.Sleep(25000);
+                productImage.Click();
+                Thread.Sleep(2000);
+            }catch (Exception e)
+            {
+                Console.WriteLine(CustomException.TypeOfException.ELEMENT_NOT_FOUND);
+            }
         }
 
         /// <summary>
