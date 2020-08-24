@@ -2,10 +2,9 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Demo
+namespace MyntraAutomation
 {
-    using Demo.Base;
-    using Demo.Pages;
+    using MyntraAutomation.Base;
     using MyntraAutomation.Pages;
     using NUnit.Framework;
 

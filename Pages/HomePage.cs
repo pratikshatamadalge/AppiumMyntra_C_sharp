@@ -1,7 +1,7 @@
 ﻿// <copyright file="SearchProduct.cs" company="Bridgelabz">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
-namespace Demo.Pages
+namespace MyntraAutomation.Pages
 {
     using System.Threading;
     using OpenQA.Selenium;

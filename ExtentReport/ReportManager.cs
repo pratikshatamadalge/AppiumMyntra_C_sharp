@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿// <copyright file="ReportManager.cs" company="Bridgelabz">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 namespace MyntraAutomation.ExtentReport
 {
     using AventStack.ExtentReports;
@@ -20,10 +19,12 @@ namespace MyntraAutomation.ExtentReport
         {
             if (extent == null)
             {
-                string reportPath = @"F:\VS\MobileAutomation\Demo\ExtentReport\index.html";
+                string reportPath = @"F:\VS\MobileAutomation\Demo\ExtentReport";
                 htmlReporter = new ExtentHtmlReporter(reportPath);
                 extent = new ExtentReports();
                 extent.AttachReporter(htmlReporter);
+                extent.AddSystemInfo("OS", "Windows 10");
+                extent.AddSystemInfo("Browser", "Chrome");
             }
             return extent;
         }

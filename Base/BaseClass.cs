@@ -2,7 +2,7 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
-namespace Demo.Base
+namespace MyntraAutomation.Base
 {
     using AventStack.ExtentReports;
     using AventStack.ExtentReports.MarkupUtils;
@@ -13,13 +13,13 @@ namespace Demo.Base
     using OpenQA.Selenium.Appium;
     using OpenQA.Selenium.Appium.Android;
     using System;
+    using System.Threading;
 
     /// <summary>
     /// Base class.
     /// </summary>
     public class BaseClass
     {
-        //public IWebDriver driver;
         public static ExtentReports extent = ReportManager.GetInstance();
         public static ExtentTest test;
         public const string path =@"F:\VS\MobileAutomation\Demo\Screenshots";
@@ -48,32 +48,47 @@ namespace Demo.Base
         }
 
         /// <summary>
+        /// Set up method for each testCase.
+        /// </summary>
+        [SetUp]
+        public void SetUp()
+        {
+            Utility.InternetConnection();
+        }
+
+        /// <summary>
         /// To add extent report,screenshot features for each test case.
         /// </summary>
         [TearDown]
-        public void TestClose()
+        public void close()
         {
             try
             {
+                Utility.InternetConnection();
                 test = extent.CreateTest(TestContext.CurrentContext.Test.Name);
                 if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
                 {
                     string path = Utility.TakeScreenshot(driver, TestContext.CurrentContext.Test.Name);
                     test.Log(Status.Fail, "Test Failed");
                     test.AddScreenCaptureFromPath(path);
-                    log.Error("Test Failed");
                     test.Fail(MarkupHelper.CreateLabel(TestContext.CurrentContext.Test.Name, ExtentColor.Red));
                 }
                 else if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Passed)
                 {
                     test.Log(Status.Pass, "Test Sucessful");
                     test.Pass(MarkupHelper.CreateLabel(TestContext.CurrentContext.Test.Name, ExtentColor.Green));
-                    log.Info(TestContext.CurrentContext.Test.Name + "Passed");
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
+                log.Error("error: " + e);
+
+                Console.Out.WriteLine(e.StackTrace);
                 Console.Out.WriteLine(e.Message);
             }
+
+            Thread.Sleep(5000);
+            extent.Flush();
         }
 
         /// <summary>
@@ -82,6 +97,7 @@ namespace Demo.Base
         [OneTimeTearDown]
         public void TearDown()
         {
+            Utility.SendEmail();
             this.driver.Quit();
         }
     }

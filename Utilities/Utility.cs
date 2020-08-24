@@ -1,11 +1,11 @@
-﻿using Demo.Base;
-using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MyntraAutomation.Utilities
+﻿namespace MyntraAutomation.Utilities
 {
+    using MyntraAutomation.Base;
+    using OpenQA.Selenium;
+    using System;
+    using System.Net;
+    using System.Net.Mail;
+    using System.Net.NetworkInformation;
     class Utility:BaseClass
     {
         /// <summary>
@@ -25,5 +25,51 @@ namespace MyntraAutomation.Utilities
             return localPath;
         }
 
+        /// <summary>
+        /// To send report 
+        /// </summary>
+        public static void SendEmail()
+        {
+            MailMessage mail = new MailMessage();
+            string fromEmail = "tcpratiksha@gmail.com";
+            string password = "9890046630";
+            string toEmail = "pratikshatamadalge21@gmail.com";
+            mail.From = new MailAddress(fromEmail);
+            mail.Subject = "Please check the attached report";
+            mail.To.Add(toEmail);
+            mail.Priority = MailPriority.High;
+            mail.IsBodyHtml = true;
+            mail.Attachments.Add(new Attachment(@"F:/VS/MobileAutomation/Demo/index.html"));
+            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential(fromEmail, password);
+            smtp.EnableSsl = true;
+            smtp.Send(mail);
+        }
+
+        public static void InternetConnection()
+        {
+            try
+            {
+                Ping myPing = new Ping();
+                String host = "Myntra";
+                byte[] buffer = new byte[32];
+                int timeout = 1000;
+                PingOptions pingOptions = new PingOptions();
+                PingReply reply = myPing.Send(host, timeout, buffer, pingOptions);
+                if (reply != null)
+                {
+                    Console.Out.WriteLine("Internet connection established");
+                }
+            }
+            catch (Exception e)
+            {
+                if (e.Message == "An exception occurred during a Ping request.")
+                {
+                    Console.Out.WriteLine(e.StackTrace);
+                    Console.Out.WriteLine(e.Message + " Internet connection not established");
+                }
+            }
+        }
     }
 }
